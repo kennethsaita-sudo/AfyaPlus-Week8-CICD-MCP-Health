@@ -1,0 +1,4 @@
+{"input":"I have mild headache","expected":"routine"}
+{"input":"I have chest pain","expected":"emergency"}
+{"input":"difficulty breathing","expected":"emergency"}
+{"input":"follow-up prescription question","expected":"routine"}
