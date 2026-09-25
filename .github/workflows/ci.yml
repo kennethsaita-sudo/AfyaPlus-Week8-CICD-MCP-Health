@@ -1,0 +1,51 @@
+name: afyaplus-week8-ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Lint
+        run: python -m py_compile prompt_app.py
+
+  eval:
+    needs: lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Eval Gate
+        run: python evals/eval_prompt.py
+
+  mcp-health:
+    needs: eval
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: MCP Health
+        run: python scripts/check_mcp_health.py
+
+  deploy:
+    needs: mcp-health
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy Stub
+        run: echo "Deployment Approved"
